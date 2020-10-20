@@ -262,17 +262,27 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
         try {
 
             Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
-            pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable);
+            pluginChannel.invokeMethod(
+                    Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable, new Result() {
+                @Override
+                public void success(Object o) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> content =
+                            (serializable instanceof Map ? (Map<String, Object>)serializable : null);
+                    if(content == null) return;
 
-            if (getApplicationLifeCycle() != NotificationLifeCycle.AppKilled) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> content = (serializable instanceof Map ? (Map<String, Object>)serializable : null);
-                if(content == null) return;
+                    Log.d(TAG, "Removing keep on top action from cache");
+                    ActionReceived received = ActionReceived.fromMap(content);
+                    ActionReceivedManager.removeAction(applicationContext, received.id);
+                }
 
-                Log.d(TAG, "Removing keep on top action from cache");
-                ActionReceived received = ActionReceived.fromMap(content);
-                ActionReceivedManager.removeAction(applicationContext, received.id);
-            }
+                @Override
+                public void error(String s, String s1, Object o) {
+
+                }
+
+                @Override
+                public void notImplemented() {});
 
         } catch (Exception e) {
             e.printStackTrace();
