@@ -3,6 +3,7 @@ package me.carda.awesome_notifications.notifications.broadcastReceivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import me.carda.awesome_notifications.BroadcastSender;
 import me.carda.awesome_notifications.notifications.NotificationBuilder;
