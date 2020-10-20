@@ -19,7 +19,7 @@ public class ActionReceivedManager {
         return shared.remove(context, Definitions.SHARED_ACTIONS, id.toString());
     }
 
-    public static List<NotificationReceived> listActions(Context context) {
+    public static List<ActionReceived> listActions(Context context) {
         return shared.getAllObjects(context, typeToken, Definitions.SHARED_ACTIONS);
     }
 
