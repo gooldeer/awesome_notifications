@@ -270,7 +270,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
 
             ActionReceived received = ActionReceived.fromMap(content);
 
-            ActionReceivedManager.removeAction(applicationContext, received.id)
+            ActionReceivedManager.removeAction(applicationContext, received.id);
 
         } catch (Exception e) {
             e.printStackTrace();
