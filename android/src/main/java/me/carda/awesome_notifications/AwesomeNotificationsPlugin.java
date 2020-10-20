@@ -339,10 +339,16 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
 
     private void recoverActionReceived(Context context) {
         List<ActionReceived> lostActions = ActionReceivedManager.listActions(context);
+        NotificationLifeCycle appLifeCycle = getApplicationLifeCycle();
+
+        Log.d(TAG, "Recovering cached actions. size=" + lostActions.size().toString());
 
         if(lostActions != null) {
             for (ActionReceived action : lostActions) {
                 try {
+                    action.actionDate = DateUtils.getUTCDate();
+                    action.actionLifeCycle = appLifeCycle;
+
                     pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, action.toMap());
                     ActionReceivedManager.removeAction(context, action.id);
                 } catch (Exception e) {

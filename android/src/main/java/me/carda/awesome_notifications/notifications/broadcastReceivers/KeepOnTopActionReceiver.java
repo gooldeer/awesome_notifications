@@ -15,12 +15,15 @@ import me.carda.awesome_notifications.notifications.models.returnedData.ActionRe
 
 public class KeepOnTopActionReceiver extends BroadcastReceiver {
 
+    private static final String TAG = "BroadcastSender";
+
 
     @Override
     public void onReceive(final Context context, Intent intent) {
         ActionReceived actionReceived = NotificationBuilder.buildNotificationActionFromIntent(context, intent);
         if (actionReceived != null) {
             try {
+                Log.d(TAG, "Action Received. Saving and broadcasting");
                 ActionReceivedManager.saveAction(context, actionReceived);
                 BroadcastSender.SendBroadcastKeepOnTopAction(
                     context,
