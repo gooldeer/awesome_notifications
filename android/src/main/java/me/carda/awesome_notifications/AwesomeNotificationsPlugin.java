@@ -341,7 +341,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
         List<ActionReceived> lostActions = ActionReceivedManager.listActions(context);
         NotificationLifeCycle appLifeCycle = getApplicationLifeCycle();
 
-        Log.d(TAG, "Recovering cached actions. size=" + lostActions.size().toString());
+        Log.d(TAG, "Recovering cached actions. size=" + lostActions.size());
 
         if(lostActions != null) {
             for (ActionReceived action : lostActions) {
