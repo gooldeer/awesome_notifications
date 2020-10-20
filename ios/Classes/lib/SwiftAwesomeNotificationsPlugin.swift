@@ -263,7 +263,7 @@ public class SwiftAwesomeNotificationsPlugin: NSObject, FlutterPlugin, UNUserNot
                 let lifecycle = SwiftAwesomeNotificationsPlugin.getApplicationLifeCycle()
 
                 if(lifecycle == .AppKilled){
-                    ActionReceivedManager.saveAction(received: actionReceived)
+                    ActionReceivedManager.saveAction(received: actionReceived!)
                 }
 
                 Log.d(SwiftAwesomeNotificationsPlugin.TAG, "NOTIFICATION RECEIVED")
@@ -624,7 +624,7 @@ public class SwiftAwesomeNotificationsPlugin: NSObject, FlutterPlugin, UNUserNot
 
         for action in actions {
             flutterChannel?.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, arguments: action.toMap())
-            ActionReceivedManager.removeAction(id: action.id)
+            ActionReceivedManager.removeAction(id: action.id!)
         }
 
         for anyData in channelsData {
