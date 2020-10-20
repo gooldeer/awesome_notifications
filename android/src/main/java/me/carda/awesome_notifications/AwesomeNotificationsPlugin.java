@@ -264,13 +264,14 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
             Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
             pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable);
 
-            @SuppressWarnings("unchecked")
-            Map<String, Object> content = (serializable instanceof Map ? (Map<String, Object>)serializable : null);
-            if(content == null) return;
+            if (getApplicationLifeCycle() != NotificationLifeCycle.AppKilled) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> content = (serializable instanceof Map ? (Map<String, Object>)serializable : null);
+                if(content == null) return;
 
-            ActionReceived received = ActionReceived.fromMap(content);
-
-            ActionReceivedManager.removeAction(applicationContext, received.id);
+                ActionReceived received = ActionReceived.fromMap(content);
+                ActionReceivedManager.removeAction(applicationContext, received.id);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
