@@ -345,8 +345,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
                 try {
                     pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, action.toMap());
                     ActionReceivedManager.removeAction(context, action.id);
-
-                } catch (PushNotificationException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
