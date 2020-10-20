@@ -269,6 +269,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
                 Map<String, Object> content = (serializable instanceof Map ? (Map<String, Object>)serializable : null);
                 if(content == null) return;
 
+                Log.d(TAG, "Removing keep on top action from cache");
                 ActionReceived received = ActionReceived.fromMap(content);
                 ActionReceivedManager.removeAction(applicationContext, received.id);
             }
