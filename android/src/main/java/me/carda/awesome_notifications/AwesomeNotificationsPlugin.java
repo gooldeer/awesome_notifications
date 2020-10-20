@@ -261,7 +261,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
     private void onBroadcastKeepOnTopActionNotification(Intent intent) {
         try {
 
-            Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
+            final Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
             pluginChannel.invokeMethod(
                     Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable, new Result() {
                         @Override
