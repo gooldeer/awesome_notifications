@@ -264,25 +264,26 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
             Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
             pluginChannel.invokeMethod(
                     Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable, new Result() {
-                @Override
-                public void success(Object o) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> content =
-                            (serializable instanceof Map ? (Map<String, Object>)serializable : null);
-                    if(content == null) return;
+                        @Override
+                        public void success(Object o) {
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> content =
+                                    (serializable instanceof Map ? (Map<String, Object>) serializable : null);
+                            if (content == null) return;
 
-                    Log.d(TAG, "Removing keep on top action from cache");
-                    ActionReceived received = ActionReceived.fromMap(content);
-                    ActionReceivedManager.removeAction(applicationContext, received.id);
-                }
+                            Log.d(TAG, "Removing keep on top action from cache");
+                            ActionReceived received = ActionReceived.fromMap(content);
+                            ActionReceivedManager.removeAction(applicationContext, received.id);
+                        }
 
-                @Override
-                public void error(String s, String s1, Object o) {
+                        @Override
+                        public void error(String s, String s1, Object o) {
+                        }
 
-                }
-
-                @Override
-                public void notImplemented() {});
+                        @Override
+                        public void notImplemented() {
+                        }
+                    });
 
         } catch (Exception e) {
             e.printStackTrace();
