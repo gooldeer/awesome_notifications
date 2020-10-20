@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import me.carda.awesome_notifications.BroadcastSender;
 import me.carda.awesome_notifications.notifications.NotificationBuilder;
-
+import me.carda.awesome_notifications.notifications.managers.ActionReceivedManager;
 import me.carda.awesome_notifications.notifications.models.returnedData.ActionReceived;
 
 /**

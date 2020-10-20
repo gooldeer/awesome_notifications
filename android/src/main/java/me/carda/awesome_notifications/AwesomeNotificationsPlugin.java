@@ -340,7 +340,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
     private void recoverActionReceived(Context context) {
         List<ActionReceived> lostActions = ActionReceivedManager.listActions(context);
 
-        if(lostCreated != null) {
+        if(lostActions != null) {
             for (ActionReceived action : lostActions) {
                 try {
                     pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, action.toMap());
