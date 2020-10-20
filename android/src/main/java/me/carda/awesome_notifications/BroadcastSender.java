@@ -66,7 +66,7 @@ public class BroadcastSender {
             success = broadcastManager.sendBroadcast(intent);
 
             if(success){
-                Log.d(TAG, "Sent created to broadcast");
+                Log.d(TAG, "Sent keep on top to broadcast");
             }
 
         } catch (Exception e) {

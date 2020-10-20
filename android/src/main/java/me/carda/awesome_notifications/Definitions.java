@@ -35,6 +35,7 @@ public interface Definitions {
     String SHARED_MANAGER = "sharedManager";
     String SHARED_CHANNELS = "channels";
     String SHARED_CREATED = "created";
+    String SHARED_ACTIONS = "actions";
     String SHARED_DISPLAYED = "displayed";
     String SHARED_DISMISSED = "dismissed";
     String SHARED_SCHEDULED_NOTIFICATIONS = "schedules";

@@ -25,6 +25,7 @@ enum Definitions {
     static let  SHARED_MANAGER = "sharedManager"
     static let  SHARED_CHANNELS = "channels"
     static let  SHARED_CREATED = "created"
+    static let  SHARED_ACTIONS = "actions"
     static let  SHARED_DISPLAYED = "displayed"
     static let  SHARED_SCHEDULED_NOTIFICATIONS = "schedules"
 

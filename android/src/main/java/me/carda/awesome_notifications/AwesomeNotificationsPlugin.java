@@ -45,6 +45,7 @@ import me.carda.awesome_notifications.notifications.exceptions.PushNotificationE
 import me.carda.awesome_notifications.notifications.NotificationBuilder;
 
 import me.carda.awesome_notifications.notifications.managers.ChannelManager;
+import me.carda.awesome_notifications.notifications.managers.ActionReceivedManager;
 import me.carda.awesome_notifications.notifications.managers.CreatedManager;
 import me.carda.awesome_notifications.notifications.managers.DefaultsManager;
 import me.carda.awesome_notifications.notifications.managers.DismissedManager;
@@ -263,6 +264,14 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
             Serializable serializable = intent.getSerializableExtra(Definitions.EXTRA_BROADCAST_MESSAGE);
             pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, serializable);
 
+            @SuppressWarnings("unchecked")
+            Map<String, Object> content = (serializable instanceof Map ? (Map<String, Object>)serializable : null);
+            if(content == null) return;
+
+            ActionReceived received = ActionReceived.fromMap(content);
+
+            ActionReceivedManager.removeAction(applicationContext, received.id)
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -320,6 +329,22 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
                     created.validate(applicationContext);
                     pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_NOTIFICATION_CREATED, created.toMap());
                     CreatedManager.removeCreated(context, created.id);
+
+                } catch (PushNotificationException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void recoverActionReceived(Context context) {
+        List<ActionReceived> lostActions = ActionReceivedManager.listActions(context);
+
+        if(lostCreated != null) {
+            for (ActionReceived action : lostActions) {
+                try {
+                    pluginChannel.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, action.toMap());
+                    ActionReceivedManager.removeAction(context, action.id);
 
                 } catch (PushNotificationException e) {
                     e.printStackTrace();
@@ -652,6 +677,7 @@ public class AwesomeNotificationsPlugin extends BroadcastReceiver implements Flu
         setChannels(context, channelsData);
 
         recoverNotificationCreated(context);
+        recoverActionReceived(context);
         recoverNotificationDisplayed(context);
         recoverNotificationDismissed(context);
 

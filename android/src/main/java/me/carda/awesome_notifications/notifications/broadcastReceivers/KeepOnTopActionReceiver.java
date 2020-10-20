@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import me.carda.awesome_notifications.BroadcastSender;
 import me.carda.awesome_notifications.notifications.NotificationBuilder;
+
 import me.carda.awesome_notifications.notifications.models.returnedData.ActionReceived;
 
 /**
@@ -20,7 +21,7 @@ public class KeepOnTopActionReceiver extends BroadcastReceiver {
         ActionReceived actionReceived = NotificationBuilder.buildNotificationActionFromIntent(context, intent);
         if (actionReceived != null) {
             try {
-
+                ActionReceivedManager.saveAction(context, actionReceived);
                 BroadcastSender.SendBroadcastKeepOnTopAction(
                     context,
                     actionReceived

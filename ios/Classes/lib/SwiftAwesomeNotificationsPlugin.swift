@@ -257,8 +257,15 @@ public class SwiftAwesomeNotificationsPlugin: NSObject, FlutterPlugin, UNUserNot
         
         if #available(iOS 10.0, *) {
             let actionReceived:ActionReceived? = NotificationBuilder.buildNotificationActionFromJson(jsonData: jsonData, actionKey: actionKey, userText: userText)
-            
+
             if actionReceived!.dismissedDate == nil {
+
+                let lifecycle = SwiftAwesomeNotificationsPlugin.getApplicationLifeCycle()
+
+                if(lifecycle == .AppKilled){
+                    ActionReceivedManager.saveAction(received: actionReceived)
+                }
+
                 Log.d(SwiftAwesomeNotificationsPlugin.TAG, "NOTIFICATION RECEIVED")
                 flutterChannel?.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, arguments: actionReceived?.toMap())
             }
@@ -611,7 +618,15 @@ public class SwiftAwesomeNotificationsPlugin: NSObject, FlutterPlugin, UNUserNot
     }
 
     private func setDefaultConfigurations(_ defaultIconPath:String?, _ channelsData:[Any]) throws {
-        
+
+
+        let actions:[ActionReceived] = ActionReceivedManager.listActions()
+
+        for action in actions {
+            flutterChannel?.invokeMethod(Definitions.CHANNEL_METHOD_RECEIVED_ACTION, arguments: action.toMap())
+            ActionReceivedManager.removeAction(id: action.id)
+        }
+
         for anyData in channelsData {
             if let channelData = anyData as? [String : Any?] {
                 let channel:NotificationChannelModel? = (NotificationChannelModel().fromMap(arguments: channelData) as? NotificationChannelModel)
